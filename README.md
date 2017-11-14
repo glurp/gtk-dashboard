@@ -7,17 +7,16 @@ A Dashboard with on-line configuration :
 * on save of it, dahboard reloads the configuration
 
 Should work anywhere Ruby-Gtk work.
-Demo use Unix commande (grep/wc -l...)
 
 Usage (linux) :
----------------
 
 ```
-> gem install gtk3 Ruiby
 > gem install gtk3
-> cd ..../gtk-dashboard
+> gem install Ruiby
+> git clone https://github.com/glurp/gtk-dashboard.git
+> cd gtk-dashboard
 > cd lib
-> ruby show.rb  # use lshow.rb configuration file by default
+> ruby show.rb  # use lshow.rb, configuration file by default
 ```
 
 
@@ -26,17 +25,19 @@ Architecture
 ```
        ----------      -------------------     --------
        |Producer|      | memory-database |     |widget|
-       |        |      |                 |     |      |
+       |        |      |     rtdb        |     |      |
        |        |      |                 |Read |------|
        |--------|Write |                 |====>| Plot |====> Main-Window
        |  MQTT  |=====>|                 |(sub)|------|
-       |connect.|Data  |                 |     |      |
+       |connect.| (pub)|                 |     |      |
        |--------|      |                 |     |      |
        |        |      |                 |     |      |
        |        |      |                 |     |      |
        ----------      -------------------     --------
 
 ```
+
+RTDB use read/write and Publish/Subscribe pattern.
 
 All these elements are in one, simple process, which manage  Gtk main window.
 
@@ -73,32 +74,45 @@ Structure
 EEND
 }
 ```
-Bddtr containthe list of variable in database. (Variables are String/Float/Int, no structurd data).
+RTDB contain the list of variable in database. (Variables are String/Float/Int, no structurd data).
 
 Produceur declare all connector.
-They are 3 type/familly of connector:
-* ProdSystem : data came from  a systm commande.
-* ProdPipeNum: data are numerique value out of pipe ( exemple : vmtat 1)
-* ProdRuby : A ruby cade generate value for Bddtr. the Dashboard call this traitment periodcly (as ProSystem)
+They are 3 type/family of connector:
+* ProdSystem : data came from  a system commande.
+* ProdPipeNum: data are numerics values out of pipe ( exemple : vmtat 1)
+* ProdRuby : A ruby  generate value for Rtdb. the Dashboard call this traitment periodcly (as ProSystem)
+
+
 
 Windows entry specify the widgets.
-They are organise in row/column table :
-r1 { cel1 proc {} , cell1 proc {} ..} r2 { ... } r3 { ... }
 
-All widget are epecified by proc.
-A helper is provided, 'e' context variable, which is the manager of all widgets (see E class in widgts.rb)
+* They are organise in row/column table : r1 { cel1 proc {} , cell1 proc {} ..} r2 { ... } r3 { ... }
+
+
+
+All widget are specified by proc.
+A helper is provided, 'e' context variable, which is the manager of all widgets (see E class in widgets/engine.rb)
 
 Old fashion widgets
 --------------------
 On first version, widget get data, they were no memory-database, 
-* e.nb  : execute a system commande and count the line output, show "label : cvalue"
-* e.fsize: count the nomber of line of all files 
-* e.bd
+* e.nb  : execute a system command and count the line output, show "label : value"
+* e.fsize: count the number of line of all files globed by parameter
+* e.bd : show rtdb variable content in a label
+
+
 
 New fashion Widgets
 -------------------
-In new version, database act as midleware
+
+In new version, database act as middleware
+
+Widget which use rtdb are :
+
+* Bd
+* List
 * Plot
 * Gauge
 * List
+
 

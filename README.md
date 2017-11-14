@@ -8,7 +8,7 @@ A Dashboard with on-line configuration :
 
 Should work anywhere Ruby-Gtk work.
 
-!(demo)[https://raw.githubusercontent.com/glurp/gtk-dashboard/master/demo.png]
+![demo](https://raw.githubusercontent.com/glurp/gtk-dashboard/master/demo.png)
 
 Usage (linux/windows) :
 ------------------------

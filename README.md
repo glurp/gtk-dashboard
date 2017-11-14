@@ -123,6 +123,7 @@ TODO
 =====
 * [x] Map widget
 * [x] rtdb
+* [ ] verify the desriptor, for minimise error() popup
 * [ ] subsciption on all widget using rtdb
 * [ ] multiple pad
 * [ ] test unit

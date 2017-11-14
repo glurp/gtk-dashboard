@@ -121,10 +121,10 @@ Widget which use rtdb are :
 
 TODO
 =====
-[x] Map widget
-[x] rtdb
-[ ] subsciption on all widget using rtdb
-[ ] multiple pad
-[ ] test unit
-[ ] bin tool for run from anywhere
-[ ] gem ! (?)
+* [x] Map widget
+* [x] rtdb
+* [ ] subsciption on all widget using rtdb
+* [ ] multiple pad
+* [ ] test unit
+* [ ] bin tool for run from anywhere
+* [ ] gem ! (?)

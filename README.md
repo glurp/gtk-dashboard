@@ -8,7 +8,7 @@ A Dashboard with on-line configuration :
 
 Should work anywhere Ruby-Gtk work.
 
-Usage (linux) :
+Usage (linuw/windows) :
 
 ```
 > gem install gtk3

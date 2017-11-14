@@ -13,7 +13,7 @@ $BG="#122"
     production: [
         {type: ProdSystem, period: 1, cmd: "ruby -e 'Time.now.sec.times { p 1 }'", to: :aa },
         {type: ProdPipeNum,  cmd: "ruby -e 'loop { a=Time.now.sec.to_s ; puts a+' '+a+' '+a+' '+a ; sleep(1)}'", index: [0,1,2,3], to: %i{usr sys idle aaa} },
-        {type: ProdRuby,  period: 0.2, cmd: proc {(Time.now.to_f*100).to_i % 100 }, to: :bb },
+        {type: ProdRuby,  period: 0.1, cmd: proc {(Time.now.to_f*10).to_i % 100 }, to: :bb },
     ],
     window: {
      page1: {
@@ -31,7 +31,7 @@ $BG="#122"
                     generation:  { "a" => proc {(Time.now.to_f*100).to_i % 100 } },
                   } ) },
             2  => proc {|e| e.list(1,"Title",{
-                    aa: {text: "eeee", format: "%3d C°"},
+                    aa: {text: "temp", format: "%3d C"},
                     bb: {text: ":bb", format: "%3d Km/h"},
                   })}
         },
@@ -44,7 +44,7 @@ $BG="#122"
                         }
                     }
                   )},
-            2  => proc {|e| e.gauge(0.7,"mesure",{
+            2  => proc {|e| e.gauge(0.1,"mesure",{
                     size: [160,160],
                     type: :cadrant,
                     angle:50,
@@ -55,7 +55,7 @@ $BG="#122"
                     format: "V: %2.0f Km/h",
                     minmax: [0,100],
                   })},
-            3  => proc {|e| e.gauge(0.7,"mesure",{
+            3  => proc {|e| e.gauge(0.1,"mesure",{
                     size: [160,160],
                     type: :speed,
                     angle:50,
@@ -88,6 +88,15 @@ $BG="#122"
                     varname: :bb,
                     format: "Speed: %2.0f Km/h",
                     minmax: [0,100],
+                  })},
+            3  => proc {|e| e.map(0.2,"Paris",{
+                    size: [160,160],
+                    type: :xy,
+                    fg: "#0F0",
+                    varnames: [:bb,:bb],
+                    minmax: [[0,100],[0,100]],
+                    format: "%2.0f/%2.0f",
+                    image: "#{Dir.pwd}/raster.png",
                   })}
         }
      }

@@ -1,10 +1,12 @@
 require 'Ruiby'
 require_relative "rtdb.rb"
-Dir.glob("producer/*.rb").each {|fn| p fn ;  require_relative fn }
 require_relative "widgets/engine.rb"
+Dir.glob("producer/*.rb").each {|fn| p fn ;  require_relative fn }
 Dir.glob("widgets/*.rb").each {|fn| p fn ; require_relative fn }
 
-$lfile= "lshow.rb"
+(puts("cd lib please..."); exit(1)) unless defined?(ProdSystem)
+
+$lfile= ARGV[0] || "lshow.rb"
 $rtdb=RTDB.new({})
 
 Thread.abort_on_exception=true

@@ -11,7 +11,7 @@ class EGauge < W
         @width,@height=@config[:size]
         @x0=@width/2
         @y0=@height/2
-        if @config[:type].to_s !~  /bar|progress/
+        if @config[:type].to_s !~  /bar/
             @config[:angle] ||= 0
             @y0=@height/2*(1+ 1-Math.sin(d2r(@config[:angle])))
             @r=[@x0,@y0].min-4
@@ -33,12 +33,14 @@ class EGauge < W
         when :cadrant
             w.draw_arc(@x0,@y0,@r,1/4.0+a/360.0,1/4.0-a/360.0, 3, "#0F0","#888")
             x1=@x0+(@r-4)*Math.cos(@angle)
-            y1=@y0+(@r-4)*Math.sin(@angle)
+            y1=@y0-(@r-4)*Math.sin(@angle)
             w.draw_line([@x0,@y0,x1,y1],@config[:color],3)
             w.draw_text_center(@r,@height-10,@svalue,1,@config[:color])
         when :speed
-            w.draw_arc(@x0,@y0,@r,1/4.0+a/360.0,1/4.0-a/360.0, 3, "#0F0","#888")
-            w.draw_arc(@x0,@y0,@r,1/4.0+a/360.0,1/4.0-@angle/2*Math::PI,0,"#F00","#F00")
+            p0=-3/4.0+a/360.0
+            p1=1/4.0-a/360.0
+            w.draw_arc(@x0,@y0,@r,p0,p1, 3, "#0F0","#888")
+            w.draw_arc(@x0,@y0,@r,p0,p0+(p1-p0)*@angle,0,"#F00","#F00")
             w.draw_circle(@x0,@y0,@r*7/10, @config[:bg],@config[:bg],0)
             w.draw_text_center(@r,@y0,@svalue,1.5,@config[:color])
         when :hbar
@@ -61,16 +63,15 @@ class EGauge < W
     def update()
         v=$rtdb.read(@config[:varname]).to_f
         @svalue=(@config[:format] % [v])
-        if @config[:type].to_s =~  /bar|progress/
+        if @config[:type].to_s =~  /bar|speed/
             min,max=0.0,1.0
         else
-            min,max=(270-@config[:angle]),(270+@config[:angle])
+            min,max=(270-@config[:angle]),(@config[:angle]-90)
         end
         vmin,vmax=@config[:minmax]
-        y=(v-vmin)*(max-min)/(vmax-vmin)+min
-        @angle = (@config[:type].to_s =~  /bar|progress/) ? y : d2r(y)
+        y=linear(v,[vmin,vmax],[min,max])
+        @angle = (@config[:type].to_s =~  /bar|speed/) ? y : d2r(y)
         @w.redraw
     end
-    def d2r(a) Math::PI*(a/180.0) end
 end
 

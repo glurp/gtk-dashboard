@@ -10,6 +10,7 @@ class E
   def list(period,txt,config)     @l[[@lastrow,@lastcol]] = EList.new(@app,period,txt,config)  end
   def gauge(period,txt,config)    @l[[@lastrow,@lastcol]] = EGauge.new(@app,period,txt,config)  end
   def widget(period,txt,config)   @l[[@lastrow,@lastcol]] = EWidget.new(@app,period,txt,config) end 
+  def map(period,txt,config)   @l[[@lastrow,@lastcol]] = EMap.new(@app,period,txt,config) end 
 
   def initialize(app)
       @app=app
@@ -64,6 +65,19 @@ class W
   end
   def update()
   end
+  
+  #============== common tools ==============
+  
+  def linear(value,xminmax,yminmax,debug=false)
+      vmin,vmax=xminmax
+      min,max=yminmax
+      v=1.0*(max-min)*(value-vmin)/(vmax-vmin)+min
+      p [v,value,xminmax,yminmax] if debug
+      v
+  end
+  def d2r(a) Math::PI*(a/180.0) end
+  def r2d(a) ((a*180.0)/Math::PI) % 360 end
+  
 end
 
 

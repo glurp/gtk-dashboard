@@ -28,6 +28,7 @@ end
 #
 # Execute une commande systeme, periodiquement (schedule by rtdb)
 #
+p "eee"
 class ProdSystem < Producer
     def execute()
         `#{@cmd}`.each_line {|line|

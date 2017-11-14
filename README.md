@@ -19,7 +19,7 @@ Usage (linux/windows) :
 > git clone https://github.com/glurp/gtk-dashboard.git
 > cd gtk-dashboard
 > cd lib
-> ruby show.rb  # use lshow.rb, configuration file by default
+> ruby show.rb  descr.rb
 ```
 
 
@@ -117,5 +117,6 @@ Widget which use rtdb are :
 * Plot
 * Gauge
 * List
+* Map
 
 

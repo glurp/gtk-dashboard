@@ -119,4 +119,12 @@ Widget which use rtdb are :
 * List
 * Map
 
-
+TODO
+=====
+[x] Map widget
+[x] rtdb
+[ ] subsciption on all widget using rtdb
+[ ] multiple pad
+[ ] test unit
+[ ] bin tool for run from anywhere
+[ ] gem ! (?)
